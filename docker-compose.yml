@@ -1,0 +1,23 @@
+version: '3.1'
+
+services:
+
+  https-portal:
+    image: steveltn/https-portal:latest
+    ports:
+      - '80:80'
+      - '443:443'
+    environment:
+      #STAGE: 'production'
+      #FORCE_RENEW: 'true'
+      DOMAINS: >-
+       yasufumi-yokoyama.gq -> http://192.168.1.20:8080
+       ,www.yasufumi-yokoyama.gq -> http://192.168.1.20:8080
+       ,linuxfun.org -> http://192.168.1.20:9080
+       ,www.linuxfun.org -> http://192.168.1.20:9080
+      SERVER_NAMES_HASH_BUCKET_SIZE: 64
+    volumes:
+      - https-portal-data:/var/lib/https-portal
+
+volumes:
+  https-portal-data:
