@@ -9,6 +9,7 @@ services:
       - '80:80'
       - '443:443'
     environment:
+      CUSTOM_NGINX_SERVER_CONFIG_BLOCK: 'proxy_read_timeout 300;'
       #STAGE: 'production'
       #FORCE_RENEW: 'true'
       DOMAINS: >-
