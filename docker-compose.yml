@@ -11,6 +11,7 @@ services:
     environment:
       ACCESS_LOG: 'stdout'
       CUSTOM_NGINX_SERVER_CONFIG_BLOCK: 'proxy_read_timeout 300;'
+      CUSTOM_NGINX_YASUFUMI_YOKOYAMA_GQ_CONFIG_BLOCK: 'client_max_body_size 128M;'
       #STAGE: 'production'
       #FORCE_RENEW: 'true'
       DOMAINS: >-
