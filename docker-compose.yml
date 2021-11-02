@@ -11,8 +11,17 @@ services:
     environment:
       ACCESS_LOG: 'stdout'
       CUSTOM_NGINX_SERVER_CONFIG_BLOCK: 'proxy_read_timeout 300;'
-      CUSTOM_NGINX_YASUFUMI_YOKOYAMA_GQ_CONFIG_BLOCK: 'client_max_body_size 128M;'
-      #STAGE: 'production'
+      CUSTOM_NGINX_YASUFUMI_YOKOYAMA_GQ_CONFIG_BLOCK: |
+        client_max_body_size 128M;
+        location = /.well-known/carddav     { return 301 /remote.php/dav/;  }
+        location = /.well-known/caldav      { return 301 /remote.php/dav/;  }
+        location ^~ /.well-known            { return 301 /index.php$uri;    }
+      CUSTOM_NGINX_WWW_YASUFUMI_YOKOYAMA_GQ_CONFIG_BLOCK: |
+        client_max_body_size 128M;
+        location = /.well-known/carddav     { return 301 /remote.php/dav/;  }
+        location = /.well-known/caldav      { return 301 /remote.php/dav/;  }
+        location ^~ /.well-known            { return 301 /index.php$uri;    }
+      STAGE: 'production'
       #FORCE_RENEW: 'true'
       DOMAINS: >-
        yasufumi-yokoyama.gq -> http://192.168.1.20:8080
