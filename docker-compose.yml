@@ -10,7 +10,19 @@ services:
       - '443:443'
     environment:
       ACCESS_LOG: 'stdout'
-      CUSTOM_NGINX_SERVER_CONFIG_BLOCK: 'proxy_read_timeout 300;'
+      WEBSOCKET: 'true'
+      CUSTOM_NGINX_SERVER_CONFIG_BLOCK: 'proxy_read_timeout 36000s;'
+      CUSTOM_NGINX_YASUFUMI_YOKOYAMA_ML_CONFIG_BLOCK: |
+        proxy_set_header Host $$http_host;
+        proxy_set_header Connection "Upgrade";
+        location = /.well-known/carddav     { return 301 /remote.php/dav/;  }
+        location = /.well-known/caldav      { return 301 /remote.php/dav/;  }
+        location ^~ /.well-known            { return 301 /index.php$uri;    }
+      CUSTOM_NGINX_WWW_YASUFUMI_YOKOYAMA_ML_CONFIG_BLOCK: |
+        client_max_body_size 128M;
+        location = /.well-known/carddav     { return 301 /remote.php/dav/;  }
+        location = /.well-known/caldav      { return 301 /remote.php/dav/;  }
+        location ^~ /.well-known            { return 301 /index.php$uri;    }
       CUSTOM_NGINX_YASUFUMI_YOKOYAMA_GQ_CONFIG_BLOCK: |
         client_max_body_size 128M;
         location = /.well-known/carddav     { return 301 /remote.php/dav/;  }
@@ -21,13 +33,31 @@ services:
         location = /.well-known/carddav     { return 301 /remote.php/dav/;  }
         location = /.well-known/caldav      { return 301 /remote.php/dav/;  }
         location ^~ /.well-known            { return 301 /index.php$uri;    }
+      CUSTOM_NGINX_AIRBNBFUN_ORG_CONFIG_BLOCK: |
+        client_max_body_size 128M;
+        location = /.well-known/carddav     { return 301 /remote.php/dav/;  }
+        location = /.well-known/caldav      { return 301 /remote.php/dav/;  }
+        location ^~ /.well-known            { return 301 /index.php$uri;    }
+      CUSTOM_NGINX_WWW_AIRBNBFUN_ORG_CONFIG_BLOCK: |
+        client_max_body_size 128M;
+        location = /.well-known/carddav     { return 301 /remote.php/dav/;  }
+        location = /.well-known/caldav      { return 301 /remote.php/dav/;  }
+        location ^~ /.well-known            { return 301 /index.php$uri;    }
+      CUSTOM_NGINX_ORIGIN_AIRBNBFUN_ORG_CONFIG_BLOCK: |
+        client_max_body_size 128M;
+        location = /.well-known/carddav     { return 301 /remote.php/dav/;  }
+        location = /.well-known/caldav      { return 301 /remote.php/dav/;  }
+        location ^~ /.well-known            { return 301 /index.php$uri;    }
       STAGE: 'production'
       #FORCE_RENEW: 'true'
       DOMAINS: >-
        yasufumi-yokoyama.gq -> http://192.168.1.20:8080
        ,www.yasufumi-yokoyama.gq -> http://192.168.1.20:8080
-       ,linuxfun.org -> http://192.168.1.20:9080
-       ,www.linuxfun.org -> http://192.168.1.20:9080
+       ,yasufumi-yokoyama.ml -> http://192.168.1.20:9980
+       ,www.yasufumi-yokoyama.ml -> http://192.168.1.20:9980
+       ,airbnbfun.org -> http://192.168.1.30:9080
+       ,www.airbnbfun.org -> http://192.168.1.30:9080
+       ,origin.airbnbfun.org -> http://192.168.1.30:9080
       SERVER_NAMES_HASH_BUCKET_SIZE: 64
     volumes:
       - https-portal-data:/var/lib/https-portal
