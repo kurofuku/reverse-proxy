@@ -11,7 +11,9 @@ services:
     environment:
       ACCESS_LOG: 'stdout'
       WEBSOCKET: 'true'
-      CUSTOM_NGINX_SERVER_CONFIG_BLOCK: 'proxy_read_timeout 36000s;'
+      CUSTOM_NGINX_SERVER_CONFIG_BLOCK: |
+        proxy_send_timeout 360s;
+        proxy_read_timeout 360s;
       CUSTOM_NGINX_YASUFUMI_YOKOYAMA_ML_CONFIG_BLOCK: |
         proxy_set_header Host $$http_host;
         proxy_set_header Connection "Upgrade";
