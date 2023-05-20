@@ -12,6 +12,11 @@ services:
       ACCESS_LOG: 'stdout'
       WEBSOCKET: 'true'
       CUSTOM_NGINX_SERVER_CONFIG_BLOCK: |
+        error_page 500 502 503 = /under_maintenance.html;
+        location = /under_maintenance.html {
+            return 200 "<html><head>\n<title>Under maintenance</title>\n</head><body>\n<h1>Under maintenance</h1>\n<p>The requested URL is now under maintenance.<br>Please visit again.<br>Thank you.</p>\n</body></html>";
+            internal;
+        }
         proxy_send_timeout 360s;
         proxy_read_timeout 360s;
       CUSTOM_NGINX_YASUFUMI_YOKOYAMA_ML_CONFIG_BLOCK: |
